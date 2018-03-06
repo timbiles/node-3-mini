@@ -7,11 +7,10 @@ const app = express();
 app.use( bodyParser.json() );
 app.use( express.static( `${__dirname}/../build` ) );
 
-const messagesBaseUrl = "/api/messages";
-app.post( messagesBaseUrl, mc.create );
-app.get( messagesBaseUrl, mc.read );
-app.put( `${messagesBaseUrl}`, mc.update );
-app.delete( `${messagesBaseUrl}`, mc.delete );
+app.post( "/api/messages", mc.create );
+app.get( "/api/messages", mc.read );
+app.put( "/api/messages", mc.update );
+app.delete( "/api/messages", mc.delete );
 
 const port = process.env.PORT || 3000
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
