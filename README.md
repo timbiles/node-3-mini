@@ -28,7 +28,7 @@ In this step, we'll use `npm` to install `express-session` and `dotenv`, require
 * Open `server/index.js` and require `express-session` in a variable called `session`.
 * Configure the app to use sessions using `app.use`.
   * The first parameter should be `session` invoked with an object as its first argument.
-  * In the object define the value for `secret`, `resave`, `saveUninitialized`, and `cookie.maxAge`.
+  * In the object define the value for `secret`, `resave`, `saveUninitialized`, and `cookie.maxAge`. `cookie.maxAge` should be set to the value of `10000`.
     * Don't forget to configure `dotenv` to use with your session secret and include your `.env` file in your `.gitignore`.
 
 ### Solution
@@ -55,11 +55,10 @@ app.use( session({
   cookie: { maxAge: 10000 }
 }));
 
-const messagesBaseUrl = "/api/messages";
-app.post( messagesBaseUrl, mc.create );
-app.get( messagesBaseUrl, mc.read );
-app.put( `${messagesBaseUrl}`, mc.update );
-app.delete( `${messagesBaseUrl}`, mc.delete );
+app.post( "/api/messages", mc.create );
+app.get( "/api/messages", mc.read );
+app.put( "/api/messages", mc.update );
+app.delete( "/api/messages", mc.delete );
 
 const port = process.env.PORT || 3000
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
@@ -132,11 +131,10 @@ app.use( session({
 
 app.use( ( req, res, next ) => createInitialSession( req, res, next ) );
 
-const messagesBaseUrl = "/api/messages";
-app.post( messagesBaseUrl, mc.create );
-app.get( messagesBaseUrl, mc.read );
-app.put( `${messagesBaseUrl}`, mc.update );
-app.delete( `${messagesBaseUrl}`, mc.delete );
+app.post( "/api/messages", mc.create );
+app.get( "/api/messages", mc.read );
+app.put( "/api/messages", mc.update );
+app.delete( "/api/messages", mc.delete );
 
 const port = process.env.PORT || 3000
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
@@ -243,11 +241,10 @@ app.use( ( req, res, next ) => {
   }
 });
 
-const messagesBaseUrl = "/api/messages";
-app.post( messagesBaseUrl, mc.create );
-app.get( messagesBaseUrl, mc.read );
-app.put( `${messagesBaseUrl}`, mc.update );
-app.delete( `${messagesBaseUrl}`, mc.delete );
+app.post( "/api/messages", mc.create );
+app.get( "/api/messages", mc.read );
+app.put( "/api/messages", mc.update );
+app.delete( "/api/messages", mc.delete );
 
 const port = process.env.PORT || 3000
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
@@ -363,12 +360,11 @@ app.use( ( req, res, next ) => {
   }
 });
 
-const messagesBaseUrl = "/api/messages";
-app.post( messagesBaseUrl, mc.create );
-app.get( messagesBaseUrl, mc.read );
-app.put( `${messagesBaseUrl}`, mc.update );
-app.delete( `${messagesBaseUrl}`, mc.delete );
-app.get( `${messagesBaseUrl}/history`, mc.history );
+app.post( "/api/messages", mc.create );
+app.get( "/api/messages", mc.read );
+app.put( "/api/messages", mc.update );
+app.delete( "/api/messages", mc.delete );
+app.get( "/api/messages/history", mc.history );
 
 const port = process.env.PORT || 3000
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
