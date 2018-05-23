@@ -31,6 +31,7 @@ app.post( "/api/messages", mc.create );
 app.get( "/api/messages", mc.read );
 app.put( "/api/messages", mc.update );
 app.delete( "/api/messages", mc.delete );
+app.get("/api/messages/history", mc.history);
 
 const port = process.env.PORT || 3000
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
