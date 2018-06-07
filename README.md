@@ -41,13 +41,13 @@ In this step, we'll use `npm` to install `express-session` and `dotenv`, require
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mc = require( `${__dirname}/controllers/messages_controller` );
+const mc = require( `./controllers/messages_controller` );
 require('dotenv').config()
 
 const app = express();
 
 app.use( bodyParser.json() );
-app.use( express.static( `${__dirname}../build` ) );
+app.use( express.static( `${__dirname}/../build` ) );
 app.use( session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -60,7 +60,7 @@ app.get( "/api/messages", mc.read );
 app.put( "/api/messages", mc.update );
 app.delete( "/api/messages", mc.delete );
 
-const port = process.env.PORT || 3000
+const port = 1337
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
 ```
 
@@ -82,7 +82,7 @@ In this step, we'll create custom middleware that will check to see if the sessi
 * After the if statement, call `next`.
 * Open `server/index.js`.
 * Require `server/middlewares/session.js` in a variable called `createInitialSession`.
-* Add middleware to `app` that captures `req`, `res`, and `next` and then calls `createInitialSession` with `req`, `res`, and `next` as arguments.
+* Tell `app` to use the `createInitalSession` middleware after sessions are setup. 
 
 ### Solution
 
@@ -113,15 +113,15 @@ module.exports = function( req, res, next ) {
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mc = require( `${__dirname}/controllers/messages_controller` );
+const mc = require( `./controllers/messages_controller` );
 require('dotenv').config()
 
-const createInitialSession = require( `${__dirname}/middlewares/session.js` );
+const createInitialSession = require( `./middlewares/session.js` );
 
 const app = express();
 
 app.use( bodyParser.json() );
-app.use( express.static( `${__dirname}../build` ) );
+app.use( express.static( `${__dirname}/../build` ) );
 app.use( session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -129,14 +129,14 @@ app.use( session({
   cookie: { maxAge: 10000 }
 }));
 
-app.use( ( req, res, next ) => createInitialSession( req, res, next ) );
+app.use( createInitialSession );
 
 app.post( "/api/messages", mc.create );
 app.get( "/api/messages", mc.read );
 app.put( "/api/messages", mc.update );
 app.delete( "/api/messages", mc.delete );
 
-const port = process.env.PORT || 3000
+const port = 1337
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
 ```
 
@@ -214,16 +214,16 @@ In this step, we'll require `server/middlewares/filter.js` in `server/index.js` 
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mc = require( `${__dirname}/controllers/messages_controller` );
+const mc = require( `./controllers/messages_controller` );
 require('dotenv').config()
 
-const createInitialSession = require( `${__dirname}/middlewares/session.js` );
-const filter = require( `${__dirname}/middlewares/filter.js`);
+const createInitialSession = require( `./middlewares/session.js` );
+const filter = require( `./middlewares/filter.js`);
 
 const app = express();
 
 app.use( bodyParser.json() );
-app.use( express.static( `${__dirname}../build` ) );
+app.use( express.static( `${__dirname}/../build` ) );
 app.use( session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -231,7 +231,7 @@ app.use( session({
   cookie: { maxAge: 10000 }
 }));
 
-app.use( ( req, res, next ) => createInitialSession( req, res, next ) );
+app.use( createInitialSession );
 app.use( ( req, res, next ) => {
   const { method } = req;
   if ( method === "POST" || method === "PUT" ) {
@@ -246,7 +246,7 @@ app.get( "/api/messages", mc.read );
 app.put( "/api/messages", mc.update );
 app.delete( "/api/messages", mc.delete );
 
-const port = process.env.PORT || 3000
+const port = 1337
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
 ```
 
@@ -333,16 +333,16 @@ module.exports = {
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mc = require( `${__dirname}/controllers/messages_controller` );
+const mc = require( `./controllers/messages_controller` );
 require('dotenv').config()
 
-const createInitialSession = require( `${__dirname}/middlewares/session.js` );
-const filter = require( `${__dirname}/middlewares/filter.js`);
+const createInitialSession = require( `./middlewares/session.js` );
+const filter = require( `./middlewares/filter.js`);
 
 const app = express();
 
 app.use( bodyParser.json() );
-app.use( express.static( `${__dirname}../build` ) );
+app.use( express.static( `${__dirname}/../build` ) );
 app.use( session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -366,7 +366,7 @@ app.put( "/api/messages", mc.update );
 app.delete( "/api/messages", mc.delete );
 app.get( "/api/messages/history", mc.history );
 
-const port = process.env.PORT || 3000
+const port = 1337
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );
 ```
 
