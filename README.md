@@ -92,7 +92,7 @@ In this step, we'll create custom middleware that will check to see if the sessi
 
 ```js
 module.exports = function( req, res, next ) {
-  const { session, method } = req;
+  const { session } = req;
   if ( !session.user ) {
     session.user = {
       messages: []
